@@ -9,11 +9,13 @@ public class Player : MonoBehaviour
     public float rotationSpeed = 360f;
 
     CharacterController charCtrl;
+    Animator anim;
 
     // Start is called before the first frame update
     void Start()
     {
         charCtrl = GetComponent<CharacterController>();
+        anim = GetComponentInChildren<Animator>();
     }
 
     // Update is called once per frame
@@ -28,5 +30,12 @@ public class Player : MonoBehaviour
             transform.LookAt(transform.position + forward);
         }
         charCtrl.Move(dir * moveSpeed * Time.deltaTime);
+        anim.SetFloat("Speed", charCtrl.velocity.magnitude);
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Destroy(other.gameObject);
+    }
+
 }
